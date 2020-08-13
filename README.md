@@ -22,21 +22,19 @@ This library provides the ability to process messages passed onto a data layer q
   
 
 ## Quick Start
-First, install the package with your favorite package manager:
+First, add the data-layer-library as a git submodule
 ```bash
-npm install data-layer-helper
-// or
-yarn add data-layer-helper
+git submodule add https://github.com/google/data-layer-helper 
 ```
 
 Next, import the code into your javascript:
 ```js
-import 'node_modules/data-layer-helper/dist/data-layer-helper';
+import 'data-layer-helper/dist/data-layer-helper';
 ```
 
 For the development version (bigger file size, but reports possible errors to the console):
 ```js
-import 'node_modules/data-layer-helper/dist/data-layer-helper-test-debug';
+import 'data-layer-helper/dist/data-layer-helper-test-debug';
 ```
 
 ## What is a Data Layer Queue?

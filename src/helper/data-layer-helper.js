@@ -184,17 +184,23 @@ class DataLayerHelper {
         `run a single time to prepare the helper.`, LogLevel.ERROR);
     }
 
+    const model = this.model_;
     // Register a processor for set command.
     this.registerProcessor('set', function() {
       let toMerge = {};
       if (arguments.length === 1 && type(arguments[0]) === 'object') {
         toMerge = arguments[0];
+        for (const key in toMerge) {
+          merge(expandKeyValue(key, toMerge[key]), model);
+        }
       } else if (arguments.length === 2 && type(arguments[0]) === 'string') {
         // Maintain consistency with how objects are merged
         // outside of the set command (overwrite or recursively merge).
         toMerge = expandKeyValue(arguments[0], arguments[1]);
+        merge(toMerge, model);
       }
-      return toMerge;
+      // TODO(wolfblue@) remove calls to merge, and instead return
+      // toMerge. Must fix buggy behavior first.
     });
     // Process the existing/past states.
     this.processStates_(this.dataLayer_, !(this.listenToPast_));

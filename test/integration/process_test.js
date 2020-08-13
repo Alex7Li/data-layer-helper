@@ -39,4 +39,20 @@ describe('The process function of helper', () => {
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  it('registers set commands in future events', () => {
+    const helper = new DataLayerHelper(dataLayer,
+        {processNow: false});
+    let a = 1;
+    const setA = function() {
+      a = helper.get('key');
+    }
+    helper.registerProcessor('event', setA);
+    commandAPI('set', 'key', 'value');
+    commandAPI('event');
+
+    helper.process();
+
+    expect(a).toBe('value');
+  });
 });
