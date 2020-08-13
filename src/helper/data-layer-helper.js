@@ -190,17 +190,12 @@ class DataLayerHelper {
       let toMerge = {};
       if (arguments.length === 1 && type(arguments[0]) === 'object') {
         toMerge = arguments[0];
-        for (const key in toMerge) {
-          merge(expandKeyValue(key, toMerge[key]), model);
-        }
       } else if (arguments.length === 2 && type(arguments[0]) === 'string') {
         // Maintain consistency with how objects are merged
         // outside of the set command (overwrite or recursively merge).
         toMerge = expandKeyValue(arguments[0], arguments[1]);
-        merge(toMerge, model);
       }
-      // TODO(wolfblue@) remove calls to merge, and instead return
-      // toMerge. Must fix buggy behavior first.
+      return toMerge;
     });
     // Process the existing/past states.
     this.processStates_(this.dataLayer_, !(this.listenToPast_));
@@ -300,7 +295,7 @@ class DataLayerHelper {
    */
   processArguments_(args) {
     // Run all registered processors associated with this command.
-    const states = [];
+    // const states = [];
     const name = /** @type {string} */ (args[0]);
     if (this.commandProcessors_[name]) {
       // Cache length so as not to run processors registered
@@ -310,11 +305,17 @@ class DataLayerHelper {
       const length = this.commandProcessors_[name].length;
       for (let i = 0; i < length; i++) {
         const callback = this.commandProcessors_[name][i];
-        states.push(callback.apply(this.abstractModelInterface_,
-            [].slice.call(args, 1)));
+        const modelUpdate = callback.apply(this.abstractModelInterface_,
+            [].slice.call(args, 1));
+          // states.push(modelUpdate);
+        for (const key in modelUpdate) {
+          merge(expandKeyValue(key, modelUpdate[key]), this.model_);
+        }
       }
     }
-    return states;
+    // @TODO(@wolfblue) Change the way process works to be better
+    // https://docs.google.com/document/d/1BRUjcRSOG2cX1okcjbqsXlCM62wozotrvniEYjz736Q/edit#
+    return [];
   }
 
   /**

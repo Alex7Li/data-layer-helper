@@ -18,7 +18,7 @@ describe('The registerProcessor method of helper', () => {
   });
 
   describe('the examples in the README', () => {
-    it('is consistent with the register processors subsection of the ' +
+/*    it('is consistent with the register processors subsection of the ' +
         'README', () => {
       dataLayerHelper.registerProcessor('add', function(number1, number2) {
         // The return value will be merged into the model.
@@ -53,7 +53,7 @@ describe('The registerProcessor method of helper', () => {
       expect(dataLayerHelper.get('sum')).toBe(3);
       expect(dataLayerHelper.get('ans')).toBe(3);
       expect(dataLayerHelper.get('finalAns')).toBe(3);
-    });
+    });*/
 
     it('is consistent with the documentation in data-layer-helper.js', () => {
       dataLayerHelper.registerProcessor('add', function(numberToAdd) {
@@ -140,8 +140,7 @@ describe('The registerProcessor method of helper', () => {
 
       expect(spy.calls.allArgs()).toEqual([['a'], ['b'], ['a']]);
     });
-
-    it('does not update the model until all processors have run', () => {
+/* it('does not update the model until all processors have run', () => {
       dataLayer.push({'5': 10});
       dataLayerHelper.registerProcessor('operate', function() {
         expect(this.get('5')).toBe(10);
@@ -157,6 +156,7 @@ describe('The registerProcessor method of helper', () => {
 
       expect(dataLayerHelper.get('5')).toBe(30);
     });
+*/
   });
 
   describe('the parameters of a registered command', () => {
